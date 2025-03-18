@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: trackee
+    name: charlee
 
   config:
     import: optional:file:.env[.properties]

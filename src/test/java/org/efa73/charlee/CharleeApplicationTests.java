@@ -1,13 +1,13 @@
-package com.efa73.trackee;
+package org.efa73.charlee;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TrackeeApplicationTests {
+class CharleeApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
