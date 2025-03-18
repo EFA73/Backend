@@ -2,17 +2,12 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: charlee
-
-  profiles:
-    active: prod
-
   config:
     import:
-      - optional:file:.env[.properties]
+      - vault://
 
   datasource:
+#    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?useSSL=true&useUnicode=true //TODO SSL 연결할 경우
     url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
@@ -25,6 +20,18 @@ spring:
       hibernate:
         format_sql: true
         default_batch_fetch_size: 100
+
+  cloud:
+    vault:
+      host: ${VAULT_HOST}
+      port: ${VAULT_PORT}
+      scheme: ${VAULT_SCHEME}
+      authentication: ${VAULT_AUTHENTICATION}
+      token: ${VAULT_TOKEN}
+      kv:
+        enabled: true
+        backend: ${VAULT_BACKEND}
+        default-context: ${VAULT_DEFAULT_CONTEXT}
 
 logging:
   level:
