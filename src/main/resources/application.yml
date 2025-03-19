@@ -6,7 +6,7 @@ spring:
     name: charlee
 
   profiles:
-    active: dev
+    active: local
 
   config:
     import:
