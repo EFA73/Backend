@@ -4,47 +4,63 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.7'
 }
 
-group = 'org.efa73'
-version = '0.0.1-SNAPSHOT'
-//
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+allprojects {
+    group = 'org.efa73'
+    version = '0.0.1-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    ext {
+        set('springCloudVersion', "2024.0.0")
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'org.springframework.boot:spring-boot-starter-validation'
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        compileOnly 'org.projectlombok:lombok'
+        runtimeOnly 'org.springframework.cloud:spring-cloud-starter-vault-config'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+        annotationProcessor 'org.projectlombok:lombok'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    }
+
+    tasks.named('test') {
+        useJUnitPlatform()
     }
 }
 
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
+bootJar {
+    enabled = false
 }
 
-repositories {
-    mavenCentral()
-}
-
-ext {
-  set('springCloudVersion', "2024.0.0")
-}
-
-dependencyManagement {
-  imports {
-    mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-  }
-}
-
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'org.springframework.cloud:spring-cloud-starter-vault-config'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+jar {
+    enabled = false
 }

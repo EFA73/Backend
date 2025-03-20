@@ -1,32 +1,32 @@
 plugins {
-    id 'java'
-    id 'org.springframework.boot' version '3.4.3'
-    id 'io.spring.dependency-management' version '1.1.7'
+//    id 'java'
+//    id 'org.springframework.boot' version '3.4.3'
+//    id 'io.spring.dependency-management' version '1.1.7'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
-group = 'com.efa73'
-version = '0.0.1-SNAPSHOT'
+//group = 'com.efa73'
+//version = '0.0.1-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-
-repositories {
-    mavenCentral()
-}
-
-ext {
-    set('snippetsDir', file("build/generated-snippets"))
-}
+//java {
+//    toolchain {
+//        languageVersion = JavaLanguageVersion.of(21)
+//    }
+//}
+//
+//configurations {
+//    compileOnly {
+//        extendsFrom annotationProcessor
+//    }
+//}
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//ext {
+//    set('snippetsDir', file("build/generated-snippets"))
+//}
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,4 +45,12 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
     inputs.dir snippetsDir
     dependsOn test
+}
+
+bootJar {
+    enabled = true
+}
+
+jar {
+    enabled = true
 }
