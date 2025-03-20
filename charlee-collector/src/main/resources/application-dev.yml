@@ -1,7 +1,15 @@
 spring:
   config:
+    activate:
+      on-profile: dev
     import:
       - vault://
+
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?useSSL=${MYSQL_SSL}&useUnicode=${MYSQL_UNICODE}&allowPublicKeyRetrieval=${MYSQL_KEY}
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
@@ -13,18 +21,33 @@ spring:
 
   cloud:
     vault:
-      host: ${VAULT_HOST}
-      port: ${VAULT_PORT}
-      scheme: ${VAULT_SCHEME}
+      uri: ${VAULT_URI}
+      #      host: ${VAULT_HOST}
+      #      port: ${VAULT_PORT}
+      #      scheme: ${VAULT_SCHEME}
       authentication: ${VAULT_AUTHENTICATION}
       token: ${VAULT_TOKEN}
       kv:
         enabled: true
         backend: ${VAULT_BACKEND}
-        default-context: ${VAULT_DEFAULT_CONTEXT}
+        application-name: charlee
+        profiles: ${spring.profiles.active}
+#        kv-version: 2
+#        default-context: ${VAULT_DEFAULT_CONTEXT}
+#        profile-separator: "/"
 
 logging:
   level:
     com.efa73.trackee: debug
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "env"
