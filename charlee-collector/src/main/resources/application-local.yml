@@ -5,13 +5,6 @@ spring:
     import:
       - optional:file:.env[.properties]
 
-  datasource:
-    #    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DB}?useSSL=${MYSQL_SSL}&useUnicode=${MYSQL_UNICODE}&allowPublicKeyRetrieval=${MYSQL_KEY}
-    url: ${MYSQL_URL}
-    username: ${MYSQL_USER}
-    password: ${MYSQL_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: create
