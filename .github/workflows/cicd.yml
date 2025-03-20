@@ -30,14 +30,14 @@ jobs:
       - name: Docker image build
         run: |
           docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }} ${{ secrets.MODULE1 }}/.
-          docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }} ${{ secrets.MODULE2 }}/.
-          docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }} ${{ secrets.MODULE3 }}/.
+          docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE2 }} ${{ secrets.MODULE2 }}/.
+          docker build -t ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE3 }} ${{ secrets.MODULE3 }}/.
 
       - name: docker login
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Dockerhub push
         run: docker-compose push
@@ -52,13 +52,12 @@ jobs:
           docker rm -f ${{ secrets.MODULE1 }}
           docker rm -f ${{ secrets.MODULE2 }}
           docker rm -f ${{ secrets.MODULE3 }}
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.MODULE1 }}:latest
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.MODULE2 }}:latest
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.MODULE3 }}:latest
+          docker pull ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }}:latest
+          docker pull ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE2 }}:latest
+          docker pull ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE3 }}:latest
 
       - name: docker run
         run: |
-          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE1 }} -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.MODULE1 }}:latest
-          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE2 }} -p 8081:8081 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.MODULE2 }}:latest
-          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE3 }} -p 8082:8082 ${{ secrets.DOCKER_USERNAME }}/${{ secrets.MODULE3 }}:latest
-
+          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE1 }} -p 8080:8080 ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }}:latest
+          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE2 }} -p 8081:8081 ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE2 }}:latest
+          docker run -e VAULT_URI=${{ secrets.VAULT_URI }}  -e VAULT_TOKEN=${{ secrets.VAULT_TOKEN }} -e VAULT_AUTHENTICATION=${{ secrets.VAULT_AUTHENTICATION }} -e VAULT_BACKEND=${{ secrets.VAULT_BACKEND }} --name ${{ secrets.MODULE3 }} -p 8082:8082 ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE3 }}:latest
