@@ -40,7 +40,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Dockerhub push
-        run: docker-compose push
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE1 }}:latest
+          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE2 }}:latest
+          docker push ${{ secrets.DOCKER_USER }}/${{ secrets.MODULE3 }}:latest
 
   run-docker-image:
     needs: build
