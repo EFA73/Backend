@@ -13,4 +13,8 @@ public class VehicleInfo {
     private final String mid = "6";
     private final String pv = "5";
     private final String did = "1";
+
+    public VehicleInfo(String mdn) {
+        this.mdn = mdn;
+    }
 }
