@@ -1,8 +1,7 @@
 spring:
-  application:
-    name: charlee
-
   config:
+    activate:
+      on-profile: local
     import:
       - optional:file:.env[.properties]
 
@@ -23,3 +22,13 @@ logging:
     com.efa73.trackee: debug
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "env"

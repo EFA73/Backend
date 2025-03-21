@@ -3,6 +3,8 @@ spring:
     name: charlee
 
   config:
+    activate:
+      on-profile: local
     import:
       - optional:file:.env[.properties]
 

@@ -1,5 +1,7 @@
 spring:
   config:
+    activate:
+      on-profile: dev
     import:
       - vault://
 
@@ -13,15 +15,20 @@ spring:
 
   cloud:
     vault:
-      host: ${VAULT_HOST}
-      port: ${VAULT_PORT}
-      scheme: ${VAULT_SCHEME}
+      uri: ${VAULT_URI}
+      #      host: ${VAULT_HOST}
+      #      port: ${VAULT_PORT}
+      #      scheme: ${VAULT_SCHEME}
       authentication: ${VAULT_AUTHENTICATION}
       token: ${VAULT_TOKEN}
       kv:
         enabled: true
         backend: ${VAULT_BACKEND}
-        default-context: ${VAULT_DEFAULT_CONTEXT}
+        application-name: charlee
+        profiles: ${spring.profiles.active}
+#        kv-version: 2
+#        default-context: ${VAULT_DEFAULT_CONTEXT}
+#        profile-separator: "/"
 
 logging:
   level:
